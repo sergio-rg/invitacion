@@ -1,7 +1,7 @@
 <html>
 <head>
-<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-<script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
   <a-scene embedded arjs vr-mode-ui="enabled: false">
@@ -18,13 +18,20 @@
     const marker = document.querySelector("#markerHiro");
     const video = document.querySelector("#arVideo");
 
+    // Pausar el video al cargar la página
+    window.addEventListener("load", () => {
+      video.components.material.material.map.image.pause();
+    });
+
     // Escuchar cuando el marcador sea detectado
     marker.addEventListener("markerFound", () => {
+      console.log("Marcador encontrado, reproduciendo video");
       video.components.material.material.map.image.play(); // Reproducir el video cuando el marcador sea detectado
     });
 
     // Escuchar cuando el marcador sea perdido
     marker.addEventListener("markerLost", () => {
+      console.log("Marcador perdido, pausando video");
       video.components.material.material.map.image.pause(); // Pausar el video cuando el marcador no se vea
     });
   </script>
