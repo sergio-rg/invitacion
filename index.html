@@ -4,7 +4,7 @@
 <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs>
+  <a-scene embedded arjs vr-mode-ui="enabled: false">
     <!-- Cámara AR.js -->
     <a-marker preset="hiro">
       <!-- Aquí se mostrará el video -->
@@ -13,7 +13,5 @@
     <a-entity camera></a-entity>
   </a-scene>
 
-  <!-- Video que se mostrará en AR -->
-  <video id="my-video" src="test.mp4" autoplay loop></video>
 </body>
 </html>
