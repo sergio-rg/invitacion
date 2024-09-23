@@ -9,6 +9,7 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 10; /* Asegurar que los botones estén por encima de otros elementos */
     }
     button {
       padding: 10px 20px;
@@ -52,7 +53,7 @@
     videoEl.addEventListener('loadeddata', () => {
       console.log('Video cargado');
       const aVideo = document.querySelector('#arVideo');
-      aVideo.setAttribute('src', videoEl);  // Vincular el video al componente AR.js
+      aVideo.setAttribute('src', videoEl.src);  // Vincular el video al componente AR.js
     });
 
     // Obtener los botones y la caja de controles
@@ -67,14 +68,16 @@
     marker.addEventListener("markerFound", () => {
       console.log("Marcador encontrado, mostrando controles y reproduciendo video");
       controls.style.display = "block";  // Mostrar los botones
-      videoEl.play();
+      videoEl.play();  // Reproducir el video
+      const aVideo = document.querySelector('#arVideo');
+      aVideo.setAttribute('src', videoEl.src);  // Asegurarse de que el video esté vinculado
     });
 
     // Escuchar cuando el marcador sea perdido
     marker.addEventListener("markerLost", () => {
       console.log("Marcador perdido, ocultando controles y pausando video");
       controls.style.display = "none";  // Ocultar los botones
-      videoEl.pause();
+      videoEl.pause();  // Pausar el video
     });
 
     // Funcionalidad del botón "Volver a reproducir"
@@ -85,7 +88,7 @@
 
     // Funcionalidad del botón "Siguiente"
     nextBtn.addEventListener("click", () => {
-      videoEl.src = nextVideoUrl;  // Cambiar la fuente del video al siguiente video
+      videoEl.src = test2.mp4;  // Cambiar la fuente del video al siguiente video
       videoEl.load();  // Cargar el nuevo video
       videoEl.play();  // Reproducir el nuevo video
     });
