@@ -6,12 +6,27 @@
 <body style="margin: 0; overflow: hidden;">
   <a-scene embedded arjs vr-mode-ui="enabled: false">
     <!-- Cámara AR.js -->
-    <a-marker preset="hiro">
-      <!-- Aquí se mostrará el video -->
-      <a-video src="test.mp4" position="0 0.5 0" width="1" height="0.5" rotation="-90 0 0"></a-video>
+    <a-marker preset="hiro" id="markerHiro">
+      <!-- Video que se mostrará en AR -->
+      <a-video id="arVideo" src="test.mp4" position="0 0.5 0" width="1" height="0.5" rotation="-90 0 0"></a-video>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
 
+  <script>
+    // Obtener el marcador y el video
+    const marker = document.querySelector("#markerHiro");
+    const video = document.querySelector("#arVideo");
+
+    // Escuchar cuando el marcador sea detectado
+    marker.addEventListener("markerFound", () => {
+      video.components.material.material.map.image.play(); // Reproducir el video cuando el marcador sea detectado
+    });
+
+    // Escuchar cuando el marcador sea perdido
+    marker.addEventListener("markerLost", () => {
+      video.components.material.material.map.image.pause(); // Pausar el video cuando el marcador no se vea
+    });
+  </script>
 </body>
 </html>
