@@ -8,7 +8,7 @@
     <!-- Cámara AR.js -->
     <a-marker preset="hiro" id="markerHiro">
       <!-- Video que se mostrará en AR -->
-      <a-video id="arVideo" src="test.mp4" position="0 0.5 0" width="1" height="0.5" rotation="-90 0 0"></a-video>
+      <a-video id="arVideo" position="0 0.5 0" width="1" height="0.5" rotation="-90 0 0"></a-video>
     </a-marker>
     <a-entity camera></a-entity>
   </a-scene>
@@ -16,23 +16,35 @@
   <script>
     // Obtener el marcador y el video
     const marker = document.querySelector("#markerHiro");
-    const video = document.querySelector("#arVideo");
+    const videoEl = document.createElement('video');
+    videoEl.src = "test.mp4";  // Añade tu video aquí
+    videoEl.crossOrigin = "anonymous";  // Si el video está en un dominio diferente
+    videoEl.loop = true;  // Mantener en loop
+    videoEl.preload = "auto";  // Cargar el video automáticamente pero no reproducirlo
+    videoEl.style.display = "none";  // No mostrar el video HTML directamente
 
     // Pausar el video al cargar la página
     window.addEventListener("load", () => {
-      video.components.material.material.map.image.pause();
+      videoEl.pause();  // Asegurar que el video está pausado al inicio
+    });
+
+    // Esperar a que el video esté listo
+    videoEl.addEventListener('loadeddata', () => {
+      console.log('Video cargado');
+      const aVideo = document.querySelector('#arVideo');
+      aVideo.setAttribute('src', videoEl);  // Vincular el video al componente AR.js
     });
 
     // Escuchar cuando el marcador sea detectado
     marker.addEventListener("markerFound", () => {
       console.log("Marcador encontrado, reproduciendo video");
-      video.components.material.material.map.image.play(); // Reproducir el video cuando el marcador sea detectado
+      videoEl.play();  // Reproducir el video cuando el marcador sea detectado
     });
 
     // Escuchar cuando el marcador sea perdido
     marker.addEventListener("markerLost", () => {
       console.log("Marcador perdido, pausando video");
-      video.components.material.material.map.image.pause(); // Pausar el video cuando el marcador no se vea
+      videoEl.pause();  // Pausar el video cuando el marcador no se vea
     });
   </script>
 </body>
