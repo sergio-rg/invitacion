@@ -8,9 +8,22 @@
       <!-- Marcador Hiro -->
       <a-marker preset="hiro">
         <!-- Modelo básico (cubo) -->
-        <a-entity gltf-model="scene.gltf" position="-1 1 0" scale="2 2 2" rotacion="-90 -90 0"></a-entity>
+        <a-entity gltf-model="scene.gltf" position="-0.1 1 0" scale="2 2 2" rotacion="-90 -90 -90" id="sobre"></a-entity>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
+    <!-- Audio -->
+    <audio id="invitationAudio" src="invitacion.mp3"></audio>
+
+    <script>
+      // Obtener el modelo y el audio
+      const sobre = document.querySelector("#sobre");
+      const invitationAudio = document.getElementById("invitationAudio");
+
+      // Reproducir audio al hacer clic en el modelo
+      sobre.addEventListener("click", () => {
+        invitationAudio.play();  // Reproducir el audio
+      });
+    </script>
   </body>
 </html>
