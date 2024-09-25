@@ -7,11 +7,23 @@
     <a-scene embedded arjs>
       <!-- Marcador Hiro -->
       <a-marker preset="hiro">
-        <!-- Modelo básico (cubo) -->
-        <a-entity gltf-model="scene.gltf" position="-0.1 1 0" scale="2 2 2" rotacion="-90 -90 -90" id="sobre"></a-entity>
+        <!-- Modelo 3D del pergamino o sobre -->
+        <a-entity 
+          gltf-model="scene.gltf" 
+          position="0 1 0" 
+          scale="2 2 2" 
+          rotation="-90 90 0" 
+          id="sobre"
+          class="clickable"> <!-- Añadir una clase o un id es opcional -->
+        </a-entity>
       </a-marker>
-      <a-entity camera></a-entity>
+      
+      <!-- Añadir cursor para la interacción -->
+      <a-entity camera>
+        <a-cursor></a-cursor>
+      </a-entity>
     </a-scene>
+
     <!-- Audio -->
     <audio id="invitationAudio" src="invitacion.mp3"></audio>
 
