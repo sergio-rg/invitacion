@@ -1,98 +1,30 @@
 <html>
-<head>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
-  <style>
-    #controls {
-      display: none; /* Ocultos por defecto */
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10; /* Asegurar que los botones estén por encima de otros elementos */
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 0 10px;
-    }
-  </style>
-</head>
-<body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs vr-mode-ui="enabled: false">
-    <!-- Cámara AR.js -->
-    <a-marker preset="hiro" id="markerHiro">
-      <!-- Video que se mostrará en AR -->
-      <a-video id="arVideo" position="0 0.5 0" width="1" height="0.5" rotation="-90 0 0"></a-video>
-    </a-marker>
-    <a-entity camera></a-entity>
-  </a-scene>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+      <!-- Cámara AR.js -->
+      <a-marker preset="hiro">
+        <!-- Modelo 3D de la invitación -->
+        <a-entity id="invitation" gltf-model="url(modelo.glb)" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
 
-  <!-- Controles de video -->
-  <div id="controls">
-    <button id="replayBtn">Volver a reproducir</button>
-    <button id="nextBtn">Siguiente</button>
-  </div>
+    <!-- Audio -->
+    <audio id="invitationAudio" src="invitacion.mp3"></audio>
 
-  <script>
-    // Obtener el marcador y el video
-    const marker = document.querySelector("#markerHiro");
-    const videoEl = document.createElement('video');
-    videoEl.src = "test.mp4";  // Añade tu primer video aquí
-    videoEl.crossOrigin = "anonymous";  // Si el video está en un dominio diferente
-    videoEl.loop = false;  // No queremos que el video se reproduzca en bucle
-    videoEl.preload = "auto";  // Cargar el video automáticamente
-    videoEl.style.display = "none";  // No mostrar el video HTML directamente
+    <script>
+      // Obtener el modelo y el audio
+      const invitation = document.querySelector("#invitation");
+      const invitationAudio = document.getElementById("invitationAudio");
 
-    // Variable para controlar si el video se ha reproducido
-    let videoPlayed = false;
-
-    // Esperar a que el video esté listo
-    videoEl.addEventListener('loadeddata', () => {
-      console.log('Video cargado');
-      const aVideo = document.querySelector('#arVideo');
-      aVideo.setAttribute('src', videoEl.src);  // Vincular el video al componente AR.js
-    });
-
-    // Obtener los botones y la caja de controles
-    const replayBtn = document.getElementById("replayBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const controls = document.getElementById("controls");
-
-    // Video para el botón de "Siguiente"
-    const nextVideoUrl = "nextVideo.mp4";  // Cambia este URL al siguiente video que quieras usar
-
-    // Escuchar cuando el marcador sea detectado
-    marker.addEventListener("markerFound", () => {
-      console.log("Marcador encontrado, mostrando controles");
-      controls.style.display = "block";  // Mostrar los botones
-
-      // Reproducir el video solo si no se ha reproducido antes
-      if (!videoPlayed) {
-        videoEl.play();  // Reproducir el video
-        videoPlayed = true;  // Marcar que el video ha sido reproducido
-      }
-    });
-
-    // Escuchar cuando el marcador sea perdido
-    marker.addEventListener("markerLost", () => {
-      console.log("Marcador perdido, ocultando controles y pausando video");
-      controls.style.display = "none";  // Ocultar los botones
-      videoEl.pause();  // Pausar el video
-    });
-
-    // Funcionalidad del botón "Volver a reproducir"
-    replayBtn.addEventListener("click", () => {
-      videoEl.currentTime = 0;  // Reiniciar el video desde el principio
-      videoEl.play();  // Reproducir el video
-    });
-
-    // Funcionalidad del botón "Siguiente"
-    nextBtn.addEventListener("click", () => {
-      videoEl.src = nextVideoUrl;  // Cambiar la fuente del video al siguiente video
-      videoEl.load();  // Cargar el nuevo video
-      videoEl.play();  // Reproducir el nuevo video
-    });
-  </script>
-</body>
+      // Reproducir audio al hacer clic en el modelo
+      invitation.addEventListener("click", () => {
+        invitationAudio.play();  // Reproducir el audio
+      });
+    </script>
+  </body>
 </html>
