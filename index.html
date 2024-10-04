@@ -2,10 +2,6 @@
   <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
-    <!-- Incluye la biblioteca aframe-extras -->
-  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras/dist/aframe-extras.min.js"></script>
-    <!-- Librería de controles manuales -->
-    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@latest/dist/aframe-physics-system.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
@@ -20,9 +16,9 @@
           gltf-model="woman.gltf" 
           position="0 0 0" 
           scale="1 1 1" 
-          rotation="90 0 0" 
+          rotation="90 90 0" 
           id="woman"
-          gesture-handler>
+          rotation-zoom-handler>
         </a-entity>
       </a-marker>
       
@@ -31,7 +27,50 @@
         <a-cursor fuse="false"></a-cursor>
       </a-entity>
     </a-scene>
+    <script>
+      // Definir el componente personalizado para manejar rotación y zoom
+      AFRAME.registerComponent('rotation-zoom-handler', {
+        init: function () {
+          let el = this.el;
+          let initialScale = el.object3D.scale.clone();
+          let initialRotation = el.object3D.rotation.clone();
+          let isDragging = false;
+          let previousMousePosition = { x: 0, y: 0 };
 
+          // Para detectar gestos de arrastre para rotación
+          this.el.sceneEl.addEventListener('mousedown', function (event) {
+            isDragging = true;
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+          });
+
+          window.addEventListener('mousemove', function (event) {
+            if (!isDragging) return;
+
+            let deltaX = event.clientX - previousMousePosition.x;
+            let deltaY = event.clientY - previousMousePosition.y;
+
+            el.object3D.rotation.y += deltaX * 0.01;  // Rotación en eje Y (horizontal)
+            el.object3D.rotation.x += deltaY * 0.01;  // Rotación en eje X (vertical)
+
+            previousMousePosition = { x: event.clientX, y: event.clientY };
+          });
+
+          window.addEventListener('mouseup', function () {
+            isDragging = false;
+          });
+
+          // Para detectar zoom usando la rueda del ratón
+          window.addEventListener('wheel', function (event) {
+            let scaleFactor = 1 + (event.deltaY > 0 ? -0.05 : 0.05);
+            el.object3D.scale.set(
+              el.object3D.scale.x * scaleFactor,
+              el.object3D.scale.y * scaleFactor,
+              el.object3D.scale.z * scaleFactor
+            );
+          });
+        }
+      });
+    </script>
     <!-- Audio -->
     <!--
     <audio id="invitationAudio" src="invitacion.mp3"></audio>
