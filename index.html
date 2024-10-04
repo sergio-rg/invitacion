@@ -16,7 +16,7 @@
           gltf-model="woman.gltf" 
           position="0 0 0" 
           scale="1 1 1" 
-          rotation="90 0 360" 
+          rotation="-90 0 -180" 
           id="woman"
           rotation-zoom-handler>
         </a-entity>
@@ -29,47 +29,29 @@
     </a-scene>
     <script>
 // Ajusta el componente para soportar dispositivos móviles
-AFRAME.registerComponent('rotation-zoom-handler', {
-  init: function () {
-    let el = this.el;
-    let initialScale = el.object3D.scale.clone();
-    let isDragging = false;
-    let previousTouchPosition = { x: 0, y: 0 };
-
-    el.sceneEl.addEventListener('touchstart', function (event) {
-      if (event.touches.length === 1) {
+      // Manejar el evento de toque
+      woman.addEventListener('touchstart', function (event) {
         isDragging = true;
-        previousTouchPosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      }
-    });
+        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      });
 
-    el.sceneEl.addEventListener('touchmove', function (event) {
-      if (event.touches.length === 1 && isDragging) {
-        let deltaX = event.touches[0].clientX - previousTouchPosition.x;
-        let deltaY = event.touches[0].clientY - previousTouchPosition.y;
+      window.addEventListener('touchmove', function (event) {
+        if (!isDragging) return;
 
-        el.object3D.rotation.y += deltaX * 0.01;  // Rotación en eje Y
-        el.object3D.rotation.x += deltaY * 0.01;  // Rotación en eje X
+        const deltaX = event.touches[0].clientX - previousMousePosition.x;
+        const deltaY = event.touches[0].clientY - previousMousePosition.y;
 
-        previousTouchPosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      }
-    });
+        // Rotación del modelo
+        woman.object3D.rotation.y += deltaX * 0.01;  // Eje Y
+        woman.object3D.rotation.x += deltaY * 0.01;  // Eje X
 
-    el.sceneEl.addEventListener('touchend', function () {
-      isDragging = false;
-    });
+        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      });
 
-    // Zoom con pinch
-    el.sceneEl.addEventListener('wheel', function (event) {
-      let scaleFactor = 1 + (event.deltaY > 0 ? -0.05 : 0.05);
-      el.object3D.scale.set(
-        el.object3D.scale.x * scaleFactor,
-        el.object3D.scale.y * scaleFactor,
-        el.object3D.scale.z * scaleFactor
-      );
-    });
-  }
-});
+      window.addEventListener('touchend', function () {
+        isDragging = false;
+      });
+
     </script>
     <!-- Audio -->
     <!--
