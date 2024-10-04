@@ -7,17 +7,19 @@
     <a-scene embedded arjs>
       <!-- Marcador Hiro -->
       <a-marker preset="hiro">
+        <!-- Modelo para foto
         <a-image src="foto.jpeg" position="0 1 0" scale="1.5 1.5 1.5" rotation="90 0 180" id="invitation">
         </a-image>
-        <!-- Modelo 3D del pergamino o sobre 
+        -->
+        <!-- Modelo 3D del pergamino o sobre -->
         <a-entity 
-          gltf-model="scene.gltf" 
+          gltf-model="woman.gltf" 
           position="0 0 0" 
           scale="2.5 2.5 2.5" 
           rotation="-90 90 60" 
-          id="sobre"
+          id="woman"
           class="clickable">
-        </a-entity> -->
+        </a-entity>
       </a-marker>
       
       <!-- Añadir cursor para la interacción -->
@@ -31,11 +33,11 @@
 
     <script>
       // Obtener el modelo y el audio
-      const invitation = document.querySelector("#invitation");
+      const invitation = document.querySelector("#woman");
       const invitationAudio = document.getElementById("invitationAudio");
 
       // Reproducir audio al hacer clic en el modelo
-      invitation.addEventListener("click", () => {
+      woman.addEventListener("click", () => {
         invitationAudio.play();  // Reproducir el audio
       });
     </script>
