@@ -14,45 +14,16 @@
         <!-- Modelo 3D del pergamino o sobre -->
         <a-entity 
           gltf-model="woman.gltf" 
-          position="0 0 0" 
+          position="0 0 1.5" 
           scale="1 1 1" 
           rotation="-90 0 -180" 
-          id="woman"
-          rotation-zoom-handler>
+          id="woman">
         </a-entity>
       </a-marker>
       
       <!-- Añadir cursor para la interacción -->
-      <a-entity camera>
-        <a-cursor fuse="false"></a-cursor>
-      </a-entity>
+      <a-entity camera look-controls position="0 0 0"> </a-entity>
     </a-scene>
-    <script>
-// Ajusta el componente para soportar dispositivos móviles
-      // Manejar el evento de toque
-      woman.addEventListener('touchstart', function (event) {
-        isDragging = true;
-        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      });
-
-      window.addEventListener('touchmove', function (event) {
-        if (!isDragging) return;
-
-        const deltaX = event.touches[0].clientX - previousMousePosition.x;
-        const deltaY = event.touches[0].clientY - previousMousePosition.y;
-
-        // Rotación del modelo
-        woman.object3D.rotation.y += deltaX * 0.01;  // Eje Y
-        woman.object3D.rotation.x += deltaY * 0.01;  // Eje X
-
-        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
-      });
-
-      window.addEventListener('touchend', function () {
-        isDragging = false;
-      });
-
-    </script>
     <!-- Audio -->
     <!--
     <audio id="invitationAudio" src="invitacion.mp3"></audio>
