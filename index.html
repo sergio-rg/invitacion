@@ -4,6 +4,8 @@
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/master/aframe/build/aframe-ar.min.js"></script>
     <!-- Incluye la biblioteca aframe-extras -->
   <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-extras/dist/aframe-extras.min.js"></script>
+    <!-- Librería de controles manuales -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@latest/dist/aframe-physics-system.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
@@ -18,7 +20,7 @@
           gltf-model="woman.gltf" 
           position="0 0 0" 
           scale="1 1 1" 
-          rotation="90 0 180" 
+          rotation="90 0 0" 
           id="woman"
           gesture-handler>
         </a-entity>
